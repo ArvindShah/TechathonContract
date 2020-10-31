@@ -28,6 +28,9 @@ namespace TechathonContract
         public void ConfigureServices(IServiceCollection services)
         {
             services.RegisterBusinessDependencies();
+            services.AddControllers();
+            services.AddMvc().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
