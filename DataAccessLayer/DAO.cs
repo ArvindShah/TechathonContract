@@ -23,7 +23,7 @@ namespace DataAccessLayer
 
         public List<ContentMaster> GetContentData(bool IsClause,int ContentId = 0)
         {
-            var sqlHelper = GetDBConnection();
+            var sqlHelper = GetDBConnection(1);
             var dataSet = sqlHelper.ExecuteDataSet(Constants.TECH_GETALLCONTENTDATA, IsClause, ContentId);
             var dt = dataSet.Tables[0];
             List<ContentMaster> contentList = new List<ContentMaster>();
@@ -42,11 +42,11 @@ namespace DataAccessLayer
         }
         public int SaveUserTransaction(int id, int UserId, int Templateid, int LastVersion, int CurrentVersion, DateTime ModifiedDate)
         {
-            var sqlHelper = GetDBConnection();
+            var sqlHelper = GetDBConnection(1);
             var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_SaveUserTransaction, id,UserId, Templateid, LastVersion, CurrentVersion, ModifiedDate);
 
             return 0;
-}
+      }
 
         public Dictionary<string, string> GetResourcesConfigurations()
         {
