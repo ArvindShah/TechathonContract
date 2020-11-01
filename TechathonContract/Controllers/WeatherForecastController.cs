@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 using BusinessLayer;
 using DataAccessLayer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TechathonContract.Models;
 
 namespace TechathonContract.Controllers
 {
@@ -16,6 +19,7 @@ namespace TechathonContract.Controllers
     public class WeatherForecastController : ControllerBase
     {
         private IBAO _BAO;
+        UserManager<ApplicationUser> _userManager;
 
         private static readonly string[] Summaries = new[]
         {
@@ -24,17 +28,18 @@ namespace TechathonContract.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(IBAO BAO, ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(IBAO BAO, ILogger<WeatherForecastController> logger, UserManager<ApplicationUser> userManager)
         {
             _BAO = BAO;
             _logger = logger;
+            _userManager = userManager;
         }
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
-
+            string name = _userManager.Users.First().UserName;
             var user = _BAO.SaveUser(12312);
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
@@ -44,6 +49,7 @@ namespace TechathonContract.Controllers
             })
             .ToArray();
         }
+
         [HttpGet]
         public List<ContentMaster> GetContentData(bool IsClause, int ContentId = 0)
         {
@@ -60,6 +66,23 @@ namespace TechathonContract.Controllers
 
             var list = _BAO.SaveUserTransaction(objsavetransation.id, objsavetransation.UserId, objsavetransation.Templateid, objsavetransation.LastVersion, objsavetransation.CurrentVersion, objsavetransation.ModifiedDate);
             return list;
+
+}
+
+        [HttpPost]
+        [Route("Upload")]
+        public IActionResult Upload()
+        {
+            var files = Request.Form.Files;
+            return Ok("All the files are successfully uploaded.");
+        }
+
+        [HttpGet]
+        [Route("UploadGet")]
+        public IActionResult UploadGet()
+        {
+            var files = "asasa";
+            return Ok("All the files are successfully uploaded.");
 
         }
     }
