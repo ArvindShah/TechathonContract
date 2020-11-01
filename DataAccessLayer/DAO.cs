@@ -224,9 +224,9 @@ namespace DataAccessLayer
         {
             var sqlHelper = GetDBConnection(1);
             var ds = sqlHelper.ExecuteDataSet(Constants.Tech_SaveUserTemplateMapping, objUserTemplateMapping.UserId, objUserTemplateMapping.TemplateId, objUserTemplateMapping.isWrite);
-            var dt = ds.Tables[0];
-            var op = Convert.ToString(dt.Rows[0]["outputt"].ToString());
-            return op;
+            //var dt = ds.Tables[0];
+            //var op = Convert.ToString(dt.Rows[0]["outputt"].ToString());
+            return "";
         }
         public List<TemplateMaster> GetAllTemplateByUserId(int UserId = 0)
         {
