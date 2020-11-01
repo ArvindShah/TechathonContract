@@ -19,6 +19,10 @@ namespace DataAccessLayer
 
         BlobStorageDetail GetDataLakeStorageDetails();
         Dictionary<string, string> GetResourcesConfigurations();
+        List<UserMaster> GetAllUsers(int UserId = 0);
+        List<TemplateMaster> GetAllTemplate(int TemplateId = 0);
+        List<UserTransactiondata> GetAllUserTransaction();
+        List<UserTemplateMapping> GetAllUserTemplateMapping();
 
 
 

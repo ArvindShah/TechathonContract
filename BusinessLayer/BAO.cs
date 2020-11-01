@@ -58,5 +58,21 @@ namespace BusinessLayer
             }
 
         }
+        public List<UserMaster> GetAllUsers(int UserId = 0)
+        {
+            return _DAO.GetAllUsers(UserId);
+        }
+        public List<TemplateMaster> GetAllTemplate(int TemplateId = 0)
+        {
+            return _DAO.GetAllTemplate(TemplateId);
+        }
+        public List<UserTransactiondata> GetAllUserTransaction()
+        {
+            return _DAO.GetAllUserTransaction();
+        }
+        public List<UserTemplateMapping> GetAllUserTemplateMapping()
+        {
+            return _DAO.GetAllUserTemplateMapping();
+        }
     }
 }

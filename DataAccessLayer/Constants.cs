@@ -12,6 +12,10 @@ namespace DataAccessLayer
         public const string Tech_SaveUserTransaction = "Tech_SaveUserTransaction";
 
         public const string PROC_GetFileStorageDetail = "Spend_FTPLoadData_GetFileStorageDetail";
+        public const string Tech_GetAllUsers = "Tech_GetAllUsers";
+        public const string Tech_GetAllTemplates = "Tech_GetAllTemplates";
+        public const string Tech_GetAllUserTransaction = "Tech_GetAllUserTransaction";
+        public const string Tech_GetAllUserTemplateMapping = "Tech_GetAllUserTemplateMapping";
 
 
     }

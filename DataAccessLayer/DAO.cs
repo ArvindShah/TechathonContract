@@ -132,5 +132,87 @@ namespace DataAccessLayer
 
         }
 
+        public List<UserMaster> GetAllUsers(int UserId =0)
+        {
+            var sqlHelper = GetDBConnection(1);
+            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllUsers, UserId);
+            var dt = dataSet.Tables[0];
+            List<UserMaster> userList = new List<UserMaster>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                UserMaster user = new UserMaster();
+                user.UserId = Convert.ToInt32(dt.Rows[i]["USERID"]);
+                user.UserName = dt.Rows[i]["USERNAME"].ToString();
+                user.UserEmail = dt.Rows[i]["USEREMAIL"].ToString();
+
+                userList.Add(user);
+            }
+            return userList;
+        }
+        public List<TemplateMaster> GetAllTemplate(int TemplateId = 0)
+        {
+            var sqlHelper = GetDBConnection(1);
+            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllTemplates, TemplateId);
+            var dt = dataSet.Tables[0];
+            List<TemplateMaster> TemplateList = new List<TemplateMaster>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                TemplateMaster temp = new TemplateMaster();
+                temp.TemplateId = Convert.ToInt32(dt.Rows[i]["TemplateId"]);
+                temp.TemplateName = dt.Rows[i]["TemplateName"].ToString();
+                temp.TemplateTypeId = Convert.ToInt32(dt.Rows[i]["TemplateTypeId"].ToString());
+
+                temp.DataLacPath = Convert.ToString(dt.Rows[i]["DataLacPath"]);
+                temp.Version = Convert.ToInt32(dt.Rows[i]["Version"].ToString());
+                temp.LastModifiedDate = Convert.ToDateTime(dt.Rows[i]["LastModifiedDate"].ToString());
+                temp.TemplateTypeName = dt.Rows[i]["TemplateTypeName"].ToString();
+
+                TemplateList.Add(temp);
+            }
+            return TemplateList;
+        }
+        public List<UserTransactiondata> GetAllUserTransaction()
+        {
+            var sqlHelper = GetDBConnection(1);
+            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllUserTransaction);
+            var dt = dataSet.Tables[0];
+            List<UserTransactiondata> UserTransactionList = new List<UserTransactiondata>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                UserTransactiondata usertr = new UserTransactiondata();
+                usertr.UserId = Convert.ToInt32(dt.Rows[i]["Userid"]);
+                usertr.TemplateId = Convert.ToInt32(dt.Rows[i]["TemplateId"].ToString());
+                usertr.TemplateName = Convert.ToString(dt.Rows[i]["TemplateName"].ToString());
+
+                usertr.UserName = Convert.ToString(dt.Rows[i]["UserName"]);
+                usertr.LastVersion = Convert.ToInt32(dt.Rows[i]["LastVersion"].ToString());
+                usertr.CurrentVersion = Convert.ToInt32(dt.Rows[i]["CurrentVersion"].ToString());
+                usertr.ModifiedDate = Convert.ToDateTime(dt.Rows[i]["ModifiedDate"].ToString());
+
+                UserTransactionList.Add(usertr);
+            }
+            return UserTransactionList;
+        }
+        public List<UserTemplateMapping> GetAllUserTemplateMapping()
+        {
+            var sqlHelper = GetDBConnection(1);
+            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllUserTransaction);
+            var dt = dataSet.Tables[0];
+            List<UserTemplateMapping> usertemplist = new List<UserTemplateMapping>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                UserTemplateMapping objum = new UserTemplateMapping();
+                objum.UserId = Convert.ToInt32(dt.Rows[i]["Userid"]);
+                objum.TemplateId = Convert.ToInt32(dt.Rows[i]["TemplateId"].ToString());
+                objum.TemplateName = Convert.ToString(dt.Rows[i]["UserName"].ToString());
+
+                objum.UserName = Convert.ToString(dt.Rows[i]["TemplateName"]);
+              
+
+                usertemplist.Add(objum);
+            }
+            return usertemplist;
+        }
+
     }
 }

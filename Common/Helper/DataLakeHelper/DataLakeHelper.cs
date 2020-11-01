@@ -1,4 +1,5 @@
 ﻿using Common.Entity;
+using Common.Helper.DataLakeHelper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -107,6 +108,24 @@ namespace spend.selfserve.businessLayer.Helper.DataLakeHelper
                 throw;
             }
             return fileCreationResult.IsSuccessStatusCode;
+        }
+
+        public async Task<Stream> GetFileStreamWithStorageBlob(long partnerCode, long contactCode, StorageBlob storageBlob, string reportFilePath)
+        {
+            try
+            {
+                // string filePath1 = @"https://devspendssdatalake.blob.core.windows.net/spendssintegration/351/Spend/10/3300/1/adbfiles/FieldWiseSummary/TestSpendErrorLogger.csv";
+
+                byte[] templateBytesArrayAspose = await storageBlob.DownloadBlobAsByteArray(reportFilePath);
+
+                Stream fileStream = new MemoryStream(templateBytesArrayAspose);
+
+                return fileStream;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
