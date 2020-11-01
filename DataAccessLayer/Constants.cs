@@ -17,6 +17,7 @@ namespace DataAccessLayer
         public const string Tech_GetAllUserTransaction = "Tech_GetAllUserTransaction";
         public const string Tech_GetAllUserTemplateMapping = "Tech_GetAllUserTemplateMapping";
         public const string Tech_SaveUserTemplateMapping = "Tech_SaveUserTemplateMapping";
+        public const string Tech_GetAllTemplatesByUserId = "Tech_GetAllTemplatesByUserId";
 
     }
     

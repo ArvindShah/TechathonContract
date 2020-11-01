@@ -22,6 +22,7 @@ namespace BusinessLayer
         List<UserTemplateMapping> GetAllUserTemplateMapping(int userid = 0);
         string SaveUserTemplateMapping(UserTemplateMapping objUserTemplateMapping);
         List<string> GetAllVersionByTeplateId(int TemplateId);
+        List<TemplateMaster> GetAllTemplateByUserId(int UserId = 0);
 
     }
 }

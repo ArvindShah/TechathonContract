@@ -228,6 +228,28 @@ namespace DataAccessLayer
             var op = Convert.ToString(dt.Rows[0]["outputt"].ToString());
             return op;
         }
+        public List<TemplateMaster> GetAllTemplateByUserId(int UserId = 0)
+        {
+            var sqlHelper = GetDBConnection(1);
+            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllTemplatesByUserId, UserId);
+            var dt = dataSet.Tables[0];
+            List<TemplateMaster> TemplateList = new List<TemplateMaster>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                TemplateMaster temp = new TemplateMaster();
+                temp.TemplateId = Convert.ToInt32(dt.Rows[i]["TemplateId"]);
+                temp.TemplateName = dt.Rows[i]["TemplateName"].ToString();
+                temp.TemplateTypeId = Convert.ToInt32(dt.Rows[i]["TemplateTypeId"].ToString());
+
+                temp.DataLacPath = Convert.ToString(dt.Rows[i]["DataLacPath"]);
+
+                temp.Version = Convert.ToString(dt.Rows[i]["Version"]);
+                temp.LastModifiedDate = String.IsNullOrEmpty(dt.Rows[i]["LastModifiedDate"].ToString()) ? null : (DateTime?)dt.Rows[i]["LastModifiedDate"]; temp.TemplateTypeName = dt.Rows[i]["TemplateTypeName"].ToString();
+
+                TemplateList.Add(temp);
+            }
+            return TemplateList;
+        }
 
 
     }

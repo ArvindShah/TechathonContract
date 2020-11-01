@@ -127,6 +127,14 @@ namespace TechathonContract.Controllers
             return list;
 
         }
+        [HttpGet]
+        [Route("contract/GetAllTemplateByUserId")]
+        public List<TemplateMaster> GetAllTemplateByUserId(int UserId = 0)
+        {
+            var list = _BAO.GetAllTemplateByUserId(UserId);
+            return list;
+
+        }
 
     }
 }

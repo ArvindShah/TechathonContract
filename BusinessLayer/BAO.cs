@@ -82,5 +82,9 @@ namespace BusinessLayer
         {
             return _DAO.GetAllVersionByTeplateId(TemplateId);
         }
+        public List<TemplateMaster> GetAllTemplateByUserId(int UserId = 0)
+        {
+            return _DAO.GetAllTemplateByUserId(UserId);
+        }
     }
 }
