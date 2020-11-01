@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BusinessLayer;
+using DataAccessLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -49,6 +50,25 @@ namespace TechathonContract.Controllers
             .ToArray();
         }
 
+        [HttpGet]
+        public List<ContentMaster> GetContentData(bool IsClause, int ContentId = 0)
+        {
+            var rng = new Random();
+
+            var list = _BAO.GetContentData(IsClause, ContentId);
+            return list;
+           
+        }
+        [HttpPost]
+        public int SaveUserTransaction(UserTransaction objsavetransation)
+        {
+            var rng = new Random();
+
+            var list = _BAO.SaveUserTransaction(objsavetransation.id, objsavetransation.UserId, objsavetransation.Templateid, objsavetransation.LastVersion, objsavetransation.CurrentVersion, objsavetransation.ModifiedDate);
+            return list;
+
+}
+
         [HttpPost]
         [Route("Upload")]
         public IActionResult Upload()
@@ -63,6 +83,7 @@ namespace TechathonContract.Controllers
         {
             var files = "asasa";
             return Ok("All the files are successfully uploaded.");
+
         }
     }
 }
