@@ -1,7 +1,7 @@
 export class UserTemplateMapping{
-    TemplateId;
-    TemplateName;
-    UserId;
-    UserName;
-    isWrite;
+    TemplateId:number;
+    TemplateName:string;
+    UserId:number;
+    UserName:string;
+    isWrite:boolean;
 }

@@ -43,6 +43,30 @@
 </form>
 
 
+<table id="users" class="table table-bordered my-1">
+    <tr class="thead-light">
+      <th>Template Name</th>
+      <th>User name</th>
+      <th>Write Access</th>
+    </tr>
+  
+    <tr *ngFor = "let row of user_matrix">
+      <td>
+        {{row.TemplateName}}
+      </td>
+      <td>
+        {{row.UserName}}
+      </td>
+      <td>
+        {{row.isWrite}}
+      </td>
+    </tr>
+  
+  </table>
+
+
+
+
 <h1>Make Admin</h1>
 
 <form action="">
