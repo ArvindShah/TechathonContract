@@ -28,5 +28,7 @@ namespace DataAccessLayer
         List<TemplateMaster> GetAllTemplateByUserId(int UserId = 0);
         string UpdateUserToAdmin(UserAdmin objUserAdmin);
 
+        string DeleteTemplateUserMapping(DelUserTemp delObj);
+
     }
 }

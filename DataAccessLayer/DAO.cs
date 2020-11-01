@@ -258,5 +258,14 @@ namespace DataAccessLayer
             return "true";
         }
 
+        public string DeleteTemplateUserMapping(DelUserTemp delObj)
+        {
+
+            var sqlHelper = GetDBConnection(1);
+            var ds = sqlHelper.ExecuteDataSet(Constants.Tech_DelTempUserMapping, delObj.TempId, delObj.UserId);
+            return "true";
+
+        }
+
     }
 }
