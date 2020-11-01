@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TechathonContract.Models;
 
 namespace TechathonContract.Controllers
@@ -54,7 +55,8 @@ namespace TechathonContract.Controllers
         [Route("contract/GetAllUsers")]
         public List<UserMaster> GetAllUsers(int UserId = 0)
         {
-            var list = _BAO.GetAllUsers(UserId);
+            String name = _userManager.Users.First().UserName;
+            var list = _BAO.GetAllUsers(UserId>0?name:"");
             return list;
 
         }
