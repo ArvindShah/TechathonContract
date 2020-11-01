@@ -122,4 +122,27 @@ export class CounterComponent implements OnInit{
   public post_user_template_mapping( data ){
     this.http.post(this.base_url + this._post_user_template_mapping+"?TemplateId="+data.TemplateId+"&UserId="+data.UserId+"&isWrite="+data.isWrite, {}).subscribe();
   }
+
+  public admin_message = "";
+  public makeAdmin(skip=0){
+    let endpoint = "contract/UpdateUserToAdmin";
+
+    if( this.selected_user_admin ){
+      this.admin_message = "";
+
+      let item2 = this.userList.find(i => i.UserId == this.selected_user_admin);
+      if( !item2.IsAdmin || skip==1 ){
+        this.http.post(this.base_url + endpoint + "?id="+this.selected_user_admin+"&isAdmin="+!item2.IsAdmin, {
+        }).subscribe(
+          _=>this.getUsers()
+        );
+        this.admin_message = "";
+        console.log("clicked")
+      }else{
+        this.admin_message = " Already Admin "
+      }
+
+    }
+
+  }
 }
