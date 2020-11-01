@@ -111,8 +111,12 @@ namespace TechathonContract.Controllers
         }
         [HttpPost]
         [Route("contract/SaveUserTemplateMapping")]
-        public string SaveUserTemplateMapping(UserTemplateMapping objUserTemplateMapping)
+        public string SaveUserTemplateMapping( int TemplateId, int UserId, bool isWrite)
         {
+            UserTemplateMapping objUserTemplateMapping = new UserTemplateMapping();
+            objUserTemplateMapping.TemplateId = TemplateId;
+            objUserTemplateMapping.UserId = UserId;
+            objUserTemplateMapping.isWrite = isWrite;
             string op = _BAO.SaveUserTemplateMapping(objUserTemplateMapping);
             return op;
 

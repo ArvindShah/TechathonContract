@@ -23,8 +23,10 @@ export class CounterComponent implements OnInit{
   private user_api = "contract/GetAllUsers";
   private template_api = "contract/GetAllTemplate";
   private selected_user_admin;
-  private _post_user_template_mapping = "contract/SaveUserTemplateMapping"
-  private _get_user_template_mapping = "contract/GetAllUserTemplateMapping"
+  private _post_user_template_mapping = "contract/SaveUserTemplateMapping";
+  private _get_user_template_mapping = "contract/GetAllUserTemplateMapping";
+
+  private user_matrix_local;
 
   private http:HttpClient;
 
@@ -78,21 +80,22 @@ export class CounterComponent implements OnInit{
     }, error => console.error(error));
   }
 
+  public data:UserTemplateMapping;
   public updateControl(){
     console.log( "clicked" );
     console.log( this.selected_template );
     console.log( this.selected_user );
     console.log( this.read_access );
-    console.log( this.write_access );
-    let data:UserTemplateMapping = new UserTemplateMapping();
-    let item1 = this.templateList.find(i => i.TemplateId == this.selected_template);
-    data.TemplateId = this.selected_template;
-    data.TemplateName = item1.TemplateName;
-    let item2 = this.userList.find(i => i.UserId == this.selected_user);
-    data.UserId = this.selected_user;
-    data.UserName = item2.UserName;
-    data.isWrite = this.write_access ? this.write_access : this.read_access;
-    this.post_user_template_mapping( data );
+    console.log(this.write_access);
+    this.data = new UserTemplateMapping();
+    // let item1 = this.templateList.find(i => i.TemplateId == this.selected_template);
+    this.data.TemplateId = this.selected_template;
+    // this.data.TemplateName = item1.TemplateName;
+    // let item2 = this.userList.find(i => i.UserId == this.selected_user);
+    this.data.UserId = this.selected_user;
+    // this.data.UserName = item2.UserName;
+    this.data.isWrite = this.write_access ? this.write_access : this.read_access;
+    this.post_user_template_mapping( this.data );
   }
 
   
@@ -100,12 +103,23 @@ export class CounterComponent implements OnInit{
     this.http.get<UserTemplateMapping[]>(this.base_url + this._get_user_template_mapping).subscribe(result => {
       this.user_matrix = result;
       console.log( this.user_matrix );
+      this.prepare_matrix();
     }, error => console.error(error));
 
   }
 
+  public prepare_matrix(){
+    // this.user_matrix_local = {};
+    // for (let i in this.user_matrix){
+    //   this.user_matrix_local[ i.UserId ] = [];
+    // }
+    // for (let i in this.user_matrix){
+    //   this.user_matrix_local[ i.UserId ].push( { id:i.TemplateId, isWrite:i.isWrite );
+    // }
+  }
+
 
   public post_user_template_mapping( data ){
-    this.http.post(this.base_url + this._post_user_template_mapping, data).subscribe();
+    this.http.post(this.base_url + this._post_user_template_mapping+"?TemplateId="+data.TemplateId+"&UserId="+data.UserId+"&isWrite="+data.isWrite, {}).subscribe();
   }
 }
