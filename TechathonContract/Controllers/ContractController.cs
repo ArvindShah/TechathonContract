@@ -122,7 +122,7 @@ namespace TechathonContract.Controllers
 
         }
         [HttpGet]
-        [Route("contract/GetContentData")]
+        [Route("contract/GetContentDataV")]
         public List<string> GetAllVersionByTeplateId(int TemplateId)
         {
             var rng = new Random();
