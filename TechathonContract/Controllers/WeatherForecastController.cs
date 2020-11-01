@@ -66,6 +66,13 @@ namespace TechathonContract.Controllers
             return Ok("All the files are successfully uploaded.");
 
         }
-        
+        [HttpPost]
+        public string SaveUserTemplateMapping(UserTemplateMapping objUserTemplateMapping)
+        {
+            string op = _BAO.SaveUserTemplateMapping(objUserTemplateMapping);
+            return op;
+
+        }
+
     }
 }

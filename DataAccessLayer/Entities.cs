@@ -19,8 +19,8 @@ namespace DataAccessLayer
         public int id { get; set; }
         public int UserId { get; set; }
         public int Templateid { get; set; }
-        public int LastVersion { get; set; }
-        public int CurrentVersion { get; set; }
+        public string LastVersion { get; set; }
+        public string CurrentVersion { get; set; }
         public DateTime ModifiedDate { get; set; }
 
     }
@@ -51,8 +51,8 @@ namespace DataAccessLayer
         public string TemplateName { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }
-        public int LastVersion { get; set; }
-        public int CurrentVersion { get; set; }
+        public string LastVersion { get; set; }
+        public string CurrentVersion { get; set; }
         public DateTime ModifiedDate { get; set; }
        
     }
@@ -62,7 +62,7 @@ namespace DataAccessLayer
         public string TemplateName { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }
-     
+     public bool isWrite { get; set; }
 
     }
 }

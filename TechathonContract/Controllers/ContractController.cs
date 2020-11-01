@@ -81,9 +81,9 @@ namespace TechathonContract.Controllers
 
         [HttpGet]
         [Route("contract/GetAllUserTemplateMapping")]
-        public List<UserTemplateMapping> GetAllUserTemplateMapping()
+        public List<UserTemplateMapping> GetAllUserTemplateMapping(int userid = 0)
         {
-            var list = _BAO.GetAllUserTemplateMapping();
+            var list = _BAO.GetAllUserTemplateMapping(userid);
             return list;
 
         }
@@ -106,6 +106,24 @@ namespace TechathonContract.Controllers
             var rng = new Random();
 
             var list = _BAO.SaveUserTransaction(objsavetransation.id, objsavetransation.UserId, objsavetransation.Templateid, objsavetransation.LastVersion, objsavetransation.CurrentVersion, objsavetransation.ModifiedDate);
+            return list;
+
+        }
+        [HttpPost]
+        [Route("contract/SaveUserTemplateMapping")]
+        public string SaveUserTemplateMapping(UserTemplateMapping objUserTemplateMapping)
+        {
+            string op = _BAO.SaveUserTemplateMapping(objUserTemplateMapping);
+            return op;
+
+        }
+        [HttpGet]
+        [Route("contract/GetContentData")]
+        public List<string> GetAllVersionByTeplateId(int TemplateId)
+        {
+            var rng = new Random();
+
+            var list = _BAO.GetAllVersionByTeplateId(TemplateId);
             return list;
 
         }

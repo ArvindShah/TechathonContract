@@ -15,15 +15,16 @@ namespace DataAccessLayer
         int SaveUser(int userId);
 
         List<ContentMaster> GetContentData(bool IsClause, int ContentId = 0);
-        int SaveUserTransaction(int id, int UserId, int Templateid, int LastVersion, int CurrentVersion, DateTime ModifiedDate);
+        int SaveUserTransaction(int id, int UserId, int Templateid, string LastVersion, string CurrentVersion, DateTime ModifiedDate);
 
         BlobStorageDetail GetDataLakeStorageDetails();
         Dictionary<string, string> GetResourcesConfigurations();
         List<UserMaster> GetAllUsers(string UserId = "");
         List<TemplateMaster> GetAllTemplate(int TemplateId = 0);
         List<UserTransactiondata> GetAllUserTransaction();
-        List<UserTemplateMapping> GetAllUserTemplateMapping();
-
+        List<UserTemplateMapping> GetAllUserTemplateMapping(int userid = 0);
+        string SaveUserTemplateMapping(UserTemplateMapping objUserTemplateMapping);
+        List<string> GetAllVersionByTeplateId(int TemplateId);
 
 
     }
