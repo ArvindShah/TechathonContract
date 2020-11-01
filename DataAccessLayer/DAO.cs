@@ -197,7 +197,7 @@ namespace DataAccessLayer
         public List<string> GetAllVersionByTeplateId(int TemplateId)
         {
             var List = GetAllUserTransaction();
-            List<string> versionlist = List.Where(c => c.TemplateId == TemplateId).Select(x => x.CurrentVersion).ToList();
+            List<string> versionlist = List.Where(c => c.TemplateId == TemplateId).Select(x => x.CurrentVersion).Distinct().ToList();
             return versionlist;
         }
         public List<UserTemplateMapping> GetAllUserTemplateMapping(int userid = 0)
