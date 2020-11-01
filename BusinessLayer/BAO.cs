@@ -24,7 +24,7 @@ namespace BusinessLayer
         {
             return _DAO.GetContentData(IsClause);
         }
-        public int SaveUserTransaction(int id, int UserId, int Templateid, int LastVersion, int CurrentVersion, DateTime ModifiedDate)
+        public int SaveUserTransaction(int id, int UserId, int Templateid, string LastVersion, string CurrentVersion, DateTime ModifiedDate)
         {
             return _DAO.SaveUserTransaction(id,UserId, Templateid, LastVersion, CurrentVersion, ModifiedDate);
 
@@ -70,13 +70,17 @@ namespace BusinessLayer
         {
             return _DAO.GetAllUserTransaction();
         }
-        public List<UserTemplateMapping> GetAllUserTemplateMapping()
+        public List<UserTemplateMapping> GetAllUserTemplateMapping(int userid = 0)
         {
-            return _DAO.GetAllUserTemplateMapping();
+            return _DAO.GetAllUserTemplateMapping(userid);
         }
         public string SaveUserTemplateMapping(UserTemplateMapping objUserTemplateMapping)
         {
             return _DAO.SaveUserTemplateMapping(objUserTemplateMapping);
+        }
+        public List<string> GetAllVersionByTeplateId(int TemplateId)
+        {
+            return _DAO.GetAllVersionByTeplateId(TemplateId);
         }
     }
 }

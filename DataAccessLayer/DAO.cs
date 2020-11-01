@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-
+using System.Linq;
 using Common;
 using Common.Entity;
 using Common.Helper;
@@ -40,7 +40,7 @@ namespace DataAccessLayer
             }
             return contentList;
         }
-        public int SaveUserTransaction(int id, int UserId, int Templateid, int LastVersion, int CurrentVersion, DateTime ModifiedDate)
+        public int SaveUserTransaction(int id, int UserId, int Templateid, string LastVersion, string CurrentVersion, DateTime ModifiedDate)
         {
             var sqlHelper = GetDBConnection(1);
             var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_SaveUserTransaction, id,UserId, Templateid, LastVersion, CurrentVersion, ModifiedDate);
@@ -163,7 +163,7 @@ namespace DataAccessLayer
                 temp.TemplateTypeId = Convert.ToInt32(dt.Rows[i]["TemplateTypeId"].ToString());
 
                 temp.DataLacPath = Convert.ToString(dt.Rows[i]["DataLacPath"]);
-                temp.Version = Convert.ToInt32(dt.Rows[i]["Version"].ToString());
+                temp.Version = Convert.ToString(dt.Rows[i]["Version"].ToString());
                 temp.LastModifiedDate = Convert.ToDateTime(dt.Rows[i]["LastModifiedDate"].ToString());
                 temp.TemplateTypeName = dt.Rows[i]["TemplateTypeName"].ToString();
 
@@ -174,7 +174,7 @@ namespace DataAccessLayer
         public List<UserTransactiondata> GetAllUserTransaction()
         {
             var sqlHelper = GetDBConnection(1);
-            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllUserTransaction);
+            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllUserTransaction,0);
             var dt = dataSet.Tables[0];
             List<UserTransactiondata> UserTransactionList = new List<UserTransactiondata>();
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -185,18 +185,25 @@ namespace DataAccessLayer
                 usertr.TemplateName = Convert.ToString(dt.Rows[i]["TemplateName"].ToString());
 
                 usertr.UserName = Convert.ToString(dt.Rows[i]["UserName"]);
-                usertr.LastVersion = Convert.ToInt32(dt.Rows[i]["LastVersion"].ToString());
-                usertr.CurrentVersion = Convert.ToInt32(dt.Rows[i]["CurrentVersion"].ToString());
+                usertr.LastVersion = Convert.ToString(dt.Rows[i]["LastVersion"].ToString());
+                usertr.CurrentVersion = Convert.ToString(dt.Rows[i]["CurrentVersion"].ToString());
                 usertr.ModifiedDate = Convert.ToDateTime(dt.Rows[i]["ModifiedDate"].ToString());
 
                 UserTransactionList.Add(usertr);
             }
+            
             return UserTransactionList;
         }
-        public List<UserTemplateMapping> GetAllUserTemplateMapping()
+        public List<string> GetAllVersionByTeplateId(int TemplateId)
+        {
+            var List = GetAllUserTransaction();
+            List<string> versionlist = List.Where(c => c.TemplateId == TemplateId).Select(x => x.CurrentVersion).ToList();
+            return versionlist;
+        }
+        public List<UserTemplateMapping> GetAllUserTemplateMapping(int userid = 0)
         {
             var sqlHelper = GetDBConnection(1);
-            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllUserTemplateMapping);
+            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllUserTemplateMapping, userid);
             var dt = dataSet.Tables[0];
             List<UserTemplateMapping> usertemplist = new List<UserTemplateMapping>();
             for (int i = 0; i < dt.Rows.Count; i++)
