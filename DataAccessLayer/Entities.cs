@@ -61,7 +61,7 @@ namespace DataAccessLayer
         public string TemplateName { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }
-     
+     public bool isWrite { get; set; }
 
     }
 }

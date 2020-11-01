@@ -196,7 +196,7 @@ namespace DataAccessLayer
         public List<UserTemplateMapping> GetAllUserTemplateMapping()
         {
             var sqlHelper = GetDBConnection(1);
-            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllUserTransaction);
+            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllUserTemplateMapping);
             var dt = dataSet.Tables[0];
             List<UserTemplateMapping> usertemplist = new List<UserTemplateMapping>();
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -204,15 +204,24 @@ namespace DataAccessLayer
                 UserTemplateMapping objum = new UserTemplateMapping();
                 objum.UserId = Convert.ToInt32(dt.Rows[i]["Userid"]);
                 objum.TemplateId = Convert.ToInt32(dt.Rows[i]["TemplateId"].ToString());
-                objum.TemplateName = Convert.ToString(dt.Rows[i]["UserName"].ToString());
-
-                objum.UserName = Convert.ToString(dt.Rows[i]["TemplateName"]);
+                objum.TemplateName = Convert.ToString(dt.Rows[i]["TemplateName"].ToString());
+                objum.isWrite = Convert.ToBoolean(dt.Rows[i]["isWrite"].ToString());
+                objum.UserName = Convert.ToString(dt.Rows[i]["UserName"]);
               
 
                 usertemplist.Add(objum);
             }
             return usertemplist;
         }
+        public string SaveUserTemplateMapping(UserTemplateMapping objUserTemplateMapping)
+        {
+            var sqlHelper = GetDBConnection(1);
+            var ds = sqlHelper.ExecuteDataSet(Constants.Tech_SaveUserTemplateMapping, objUserTemplateMapping.UserId, objUserTemplateMapping.TemplateId, objUserTemplateMapping.isWrite);
+            var dt = ds.Tables[0];
+            var op = Convert.ToString(dt.Rows[0]["outputt"].ToString());
+            return op;
+        }
+
 
     }
 }

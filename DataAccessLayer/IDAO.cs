@@ -23,7 +23,7 @@ namespace DataAccessLayer
         List<TemplateMaster> GetAllTemplate(int TemplateId = 0);
         List<UserTransactiondata> GetAllUserTransaction();
         List<UserTemplateMapping> GetAllUserTemplateMapping();
-
+        string SaveUserTemplateMapping(UserTemplateMapping objUserTemplateMapping);
 
 
     }

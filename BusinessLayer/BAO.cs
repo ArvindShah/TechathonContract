@@ -74,5 +74,9 @@ namespace BusinessLayer
         {
             return _DAO.GetAllUserTemplateMapping();
         }
+        public string SaveUserTemplateMapping(UserTemplateMapping objUserTemplateMapping)
+        {
+            return _DAO.SaveUserTemplateMapping(objUserTemplateMapping);
+        }
     }
 }
