@@ -53,7 +53,7 @@ namespace DataAccessLayer
         public string UserName { get; set; }
         public string LastVersion { get; set; }
         public string CurrentVersion { get; set; }
-        public DateTime ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
        
     }
     public class UserTemplateMapping
@@ -62,7 +62,7 @@ namespace DataAccessLayer
         public string TemplateName { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }
-     public bool isWrite { get; set; }
+        public bool isWrite { get; set; }
 
     }
 }
