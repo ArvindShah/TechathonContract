@@ -1,7 +1,46 @@
-<h1>Counter</h1>
+<h1>Admin</h1>
 
-<p>This is a simple example of an Angular component.</p>
+<form action="">
+    <div class="row">
+        <div class="col-auto">
+            <label for="doc"> Select Document </label>
+        </div>
+        <div class="col-auto">
+            <select name="document" id="doc" [(ngModel)]="document">
+                <option value="1">Document 1</option>
+                <option value="2">Document 2</option>
+            </select>
+        </div>
+    </div>
 
-<p aria-live="polite">Current count: <strong>{{ currentCount }}</strong></p>
+    <div class="row">
+        <div class="col-auto">
+            <label for="user"> Select User </label>
+        </div>
+        <div class="col-auto">
+            <select name="user" id="user">
+                <option value="1">User 1</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-auto">
+            <label for="access"> Select Access Level </label></div>
+        <div class="col-auto">
+            <div class="row">
+                <div class="col-auto">
+                    <input type="checkbox" id="read" name="access[]" value="read">
+                    <label for="vehicle1"> Read </label>
+                </div>
+                <div class="col-auto">
+                    <input type="checkbox" id="write" name="access[]" value="write">
+                    <label for="vehicle2"> Write</label>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<button class="btn btn-primary" (click)="incrementCounter()">Increment</button>
+    <button class="btn btn-primary" (click)="updateControl()">Update</button>
+</form>
+
+
