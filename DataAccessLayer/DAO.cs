@@ -250,7 +250,12 @@ namespace DataAccessLayer
             }
             return TemplateList;
         }
-
+        public string UpdateUserToAdmin(UserAdmin objUserAdmin)
+        {
+            var sqlHelper = GetDBConnection(1);
+            var ds = sqlHelper.ExecuteDataSet(Constants.Tech_UpdateUserAdmin, objUserAdmin.UserId, objUserAdmin.isadmin);
+            return "true";
+        }
 
     }
 }

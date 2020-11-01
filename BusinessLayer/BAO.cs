@@ -86,5 +86,9 @@ namespace BusinessLayer
         {
             return _DAO.GetAllTemplateByUserId(UserId);
         }
+        public string UpdateUserToAdmin(UserAdmin objUserAdmin)
+        {
+            return _DAO.UpdateUserToAdmin(objUserAdmin);
+        }
     }
 }

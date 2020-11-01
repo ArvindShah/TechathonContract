@@ -135,6 +135,13 @@ namespace TechathonContract.Controllers
             return list;
 
         }
+        [HttpPost]
+        [Route("contract/UpdateUserToAdmin")]
+        public string UpdateUserToAdmin(UserAdmin objUserAdmin)
+        {
+            string op = _BAO.UpdateUserToAdmin(objUserAdmin);
+            return op;
 
+        }
     }
 }

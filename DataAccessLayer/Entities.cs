@@ -65,4 +65,11 @@ namespace DataAccessLayer
      public bool isWrite { get; set; }
 
     }
+    public class UserAdmin
+    {
+        public int UserId { get; set; }
+      
+        public bool isadmin { get; set; }
+
+    }
 }
