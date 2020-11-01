@@ -48,26 +48,7 @@ namespace TechathonContract.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
-        }
-
-        [HttpGet]
-        public List<ContentMaster> GetContentData(bool IsClause, int ContentId = 0)
-        {
-            var rng = new Random();
-
-            var list = _BAO.GetContentData(IsClause, ContentId);
-            return list;
-           
-        }
-        [HttpPost]
-        public int SaveUserTransaction(UserTransaction objsavetransation)
-        {
-            var rng = new Random();
-
-            var list = _BAO.SaveUserTransaction(objsavetransation.id, objsavetransation.UserId, objsavetransation.Templateid, objsavetransation.LastVersion, objsavetransation.CurrentVersion, objsavetransation.ModifiedDate);
-            return list;
-
-}
+        }        
 
         [HttpPost]
         [Route("Upload")]
@@ -85,37 +66,6 @@ namespace TechathonContract.Controllers
             return Ok("All the files are successfully uploaded.");
 
         }
-        [HttpGet]
-        [Route("GetAllUsers")]
-        public List<UserMaster> GetAllUsers(int UserId = 0)
-        {
-            var list = _BAO.GetAllUsers(UserId);
-            return list;
-
-        }
-        [HttpGet]
-        [Route("GetAllTemplate")]
-        public List<TemplateMaster> GetAllTemplate(int TemplateId = 0)
-        {
-            var list = _BAO.GetAllTemplate(TemplateId);
-            return list;
-
-        }
-        [HttpGet]
-        [Route("GetAllUserTransaction")]
-        public List<UserTransactiondata> GetAllUserTransaction()
-        {
-            var list = _BAO.GetAllUserTransaction();
-            return list;
-
-        }
-        [HttpGet]
-        [Route("GetAllUserTemplateMapping")]
-        public List<UserTemplateMapping> GetAllUserTemplateMapping()
-        {
-            var list = _BAO.GetAllUserTemplateMapping();
-            return list;
-
-        }
+        
     }
 }
