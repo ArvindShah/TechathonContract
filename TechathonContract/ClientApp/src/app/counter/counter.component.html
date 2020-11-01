@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-auto">
                     <input type="checkbox" id="write" name="access[]" value="write"  [(ngModel)]="write_access">
-                    <label for="vehicle2"> Write</label>
+                    <label for="vehicle2"> Read & Write</label>
                 </div>
             </div>
         </div>
@@ -42,4 +42,20 @@
     <button class="btn btn-primary" [disabled]="disabled" (click)="updateControl()">Update</button>
 </form>
 
+
+<h1>Make Admin</h1>
+
+<form action="">
+    <div class="row">
+        <div class="col-auto">
+            <label for="user"> Select User To Make Admin </label>
+        </div>
+        <div class="col-auto">
+            <select name="user" id="user"  [(ngModel)]="selected_user_admin">
+                <option *ngFor="let user of userList" value="{{ user.UserId }}"> {{ user.UserName }} </option>
+            </select>
+        </div>
+    </div>
+    <button class="btn btn-primary" [disabled]="disabled" (click)="updateControl()">Make Admin</button>
+</form>
 

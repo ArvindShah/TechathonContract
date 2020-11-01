@@ -165,7 +165,8 @@ namespace DataAccessLayer
                 temp.DataLacPath = Convert.ToString(dt.Rows[i]["DataLacPath"]);
 
                 temp.Version = Convert.ToString(dt.Rows[i]["Version"]);
-                temp.LastModifiedDate = String.IsNullOrEmpty(dt.Rows[i]["LastModifiedDate"].ToString()) ? null : (DateTime?)dt.Rows[i]["LastModifiedDate"];                temp.TemplateTypeName = dt.Rows[i]["TemplateTypeName"].ToString();
+                temp.LastModifiedDate = String.IsNullOrEmpty(dt.Rows[i]["LastModifiedDate"].ToString()) ? null : (DateTime?)dt.Rows[i]["LastModifiedDate"];
+                temp.TemplateTypeName = dt.Rows[i]["TemplateTypeName"].ToString();
 
                 TemplateList.Add(temp);
             }
@@ -187,7 +188,7 @@ namespace DataAccessLayer
                 usertr.UserName = Convert.ToString(dt.Rows[i]["UserName"]);
                 usertr.LastVersion = Convert.ToString(dt.Rows[i]["LastVersion"].ToString());
                 usertr.CurrentVersion = Convert.ToString(dt.Rows[i]["CurrentVersion"].ToString());
-                usertr.ModifiedDate = Convert.ToDateTime(dt.Rows[i]["ModifiedDate"].ToString());
+                usertr.ModifiedDate = String.IsNullOrEmpty(dt.Rows[i]["ModifiedDate"].ToString()) ? null : (DateTime?)dt.Rows[i]["ModifiedDate"];
 
                 UserTransactionList.Add(usertr);
             }
