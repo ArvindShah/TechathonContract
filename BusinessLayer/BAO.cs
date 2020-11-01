@@ -16,5 +16,13 @@ namespace BusinessLayer
         {
             return _DAO.SaveUser(userId);
         }
+        public List<ContentMaster> GetContentData(bool IsClause, int ContentId = 0)
+        {
+            return _DAO.GetContentData(IsClause);
+        }
+        public int SaveUserTransaction(int id, int UserId, int Templateid, int LastVersion, int CurrentVersion, DateTime ModifiedDate)
+        {
+            return _DAO.SaveUserTransaction(id,UserId, Templateid, LastVersion, CurrentVersion, ModifiedDate);
+        }
     }
 }
