@@ -1,4 +1,6 @@
 export class User{
-    name:string;
-    access:[];
+    UserId:number;
+    UserName:string;
+    UserEmail:string;
+    IsAdmin:boolean;
 }

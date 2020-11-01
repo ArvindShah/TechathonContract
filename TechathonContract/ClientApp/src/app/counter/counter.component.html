@@ -6,9 +6,8 @@
             <label for="doc"> Select Document </label>
         </div>
         <div class="col-auto">
-            <select name="document" id="doc" [(ngModel)]="document">
-                <option value="1">Document 1</option>
-                <option value="2">Document 2</option>
+            <select name="document" id="doc" [(ngModel)]="selected_template">
+                <option *ngFor="let template of templateList" value="{{ template.TemplateId }}"> {{ template.TemplateName }} </option>
             </select>
         </div>
     </div>
@@ -18,8 +17,8 @@
             <label for="user"> Select User </label>
         </div>
         <div class="col-auto">
-            <select name="user" id="user">
-                <option value="1">User 1</option>
+            <select name="user" id="user"  [(ngModel)]="selected_user">
+                <option *ngFor="let user of userList" value="{{ user.UserId }}"> {{ user.UserName }} </option>
             </select>
         </div>
     </div>
@@ -29,18 +28,18 @@
         <div class="col-auto">
             <div class="row">
                 <div class="col-auto">
-                    <input type="checkbox" id="read" name="access[]" value="read">
+                    <input type="checkbox" id="read" name="access[]" value="read" [(ngModel)]="read_access">
                     <label for="vehicle1"> Read </label>
                 </div>
                 <div class="col-auto">
-                    <input type="checkbox" id="write" name="access[]" value="write">
+                    <input type="checkbox" id="write" name="access[]" value="write"  [(ngModel)]="write_access">
                     <label for="vehicle2"> Write</label>
                 </div>
             </div>
         </div>
     </div>
 
-    <button class="btn btn-primary" (click)="updateControl()">Update</button>
+    <button class="btn btn-primary" [disabled]="disabled" (click)="updateControl()">Update</button>
 </form>
 
 

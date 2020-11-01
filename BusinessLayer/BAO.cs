@@ -58,7 +58,7 @@ namespace BusinessLayer
             }
 
         }
-        public List<UserMaster> GetAllUsers(int UserId = 0)
+        public List<UserMaster> GetAllUsers(String UserId = "")
         {
             return _DAO.GetAllUsers(UserId);
         }

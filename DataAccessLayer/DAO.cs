@@ -132,7 +132,7 @@ namespace DataAccessLayer
 
         }
 
-        public List<UserMaster> GetAllUsers(int UserId =0)
+        public List<UserMaster> GetAllUsers(String UserId ="")
         {
             var sqlHelper = GetDBConnection(1);
             var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllUsers, UserId);
@@ -144,7 +144,7 @@ namespace DataAccessLayer
                 user.UserId = Convert.ToInt32(dt.Rows[i]["USERID"]);
                 user.UserName = dt.Rows[i]["USERNAME"].ToString();
                 user.UserEmail = dt.Rows[i]["USEREMAIL"].ToString();
-
+                user.IsAdmin = Convert.ToBoolean(dt.Rows[i]["isAdmin"]);
                 userList.Add(user);
             }
             return userList;
@@ -163,8 +163,8 @@ namespace DataAccessLayer
                 temp.TemplateTypeId = Convert.ToInt32(dt.Rows[i]["TemplateTypeId"].ToString());
 
                 temp.DataLacPath = Convert.ToString(dt.Rows[i]["DataLacPath"]);
-                temp.Version = Convert.ToInt32(dt.Rows[i]["Version"].ToString());
-                temp.LastModifiedDate = Convert.ToDateTime(dt.Rows[i]["LastModifiedDate"].ToString());
+                temp.Version = Convert.ToString(dt.Rows[i]["Version"]);
+                temp.LastModifiedDate = String.IsNullOrEmpty(dt.Rows[i]["LastModifiedDate"].ToString()) ? null : (DateTime?)dt.Rows[i]["LastModifiedDate"];
                 temp.TemplateTypeName = dt.Rows[i]["TemplateTypeName"].ToString();
 
                 TemplateList.Add(temp);

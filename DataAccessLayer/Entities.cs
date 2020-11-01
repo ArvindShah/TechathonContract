@@ -29,7 +29,8 @@ namespace DataAccessLayer
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string UserEmail { get; set; }
-    
+        public bool IsAdmin { get; set; }
+
 
     }
     public class TemplateMaster
@@ -39,8 +40,8 @@ namespace DataAccessLayer
         public int TemplateTypeId { get; set; }
 
         public string DataLacPath { get; set; }
-        public int Version { get; set; }
-        public DateTime LastModifiedDate { get; set; }
+        public string Version { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
         public string TemplateTypeName { get; set; }
     }
 
