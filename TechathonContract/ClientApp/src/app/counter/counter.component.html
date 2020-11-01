@@ -80,6 +80,8 @@
             </select>
         </div>
     </div>
-    <button class="btn btn-primary" [disabled]="disabled" (click)="updateControl()">Make Admin</button>
+    <button class="btn btn-primary" [disabled]="disabled" (click)="makeAdmin()">Make Admin</button>
 </form>
+<p>{{admin_message}}</p>
+<button class="btn btn-primary" [disabled]="disabled" (click)="makeAdmin(1)" *ngIf="admin_message!=''"> Do u wnt to remove him as admin?</button>
 

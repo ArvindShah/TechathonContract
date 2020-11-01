@@ -141,8 +141,11 @@ namespace TechathonContract.Controllers
         }
         [HttpPost]
         [Route("contract/UpdateUserToAdmin")]
-        public string UpdateUserToAdmin(UserAdmin objUserAdmin)
+        public string UpdateUserToAdmin( int id, bool isAdmin)
         {
+            UserAdmin objUserAdmin = new UserAdmin();
+            objUserAdmin.isadmin = isAdmin;
+            objUserAdmin.UserId = id;
             string op = _BAO.UpdateUserToAdmin(objUserAdmin);
             return op;
 
