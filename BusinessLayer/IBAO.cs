@@ -16,6 +16,10 @@ namespace BusinessLayer
         int SaveUserTransaction(int id, int UserId, int Templateid, int LastVersion, int CurrentVersion, DateTime ModifiedDate);
 
         void UploadFileToDatalake(Stream fileStream, string fileName, int documentTypeId, int documentTemplateId);
+        List<UserMaster> GetAllUsers(int UserId = 0);
+        List<TemplateMaster> GetAllTemplate(int TemplateId = 0);
+        List<UserTransactiondata> GetAllUserTransaction();
+        List<UserTemplateMapping> GetAllUserTemplateMapping();
 
     }
 }

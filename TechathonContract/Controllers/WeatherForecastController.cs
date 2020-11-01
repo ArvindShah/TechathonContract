@@ -85,5 +85,37 @@ namespace TechathonContract.Controllers
             return Ok("All the files are successfully uploaded.");
 
         }
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public List<UserMaster> GetAllUsers(int UserId = 0)
+        {
+            var list = _BAO.GetAllUsers(UserId);
+            return list;
+
+        }
+        [HttpGet]
+        [Route("GetAllTemplate")]
+        public List<TemplateMaster> GetAllTemplate(int TemplateId = 0)
+        {
+            var list = _BAO.GetAllTemplate(TemplateId);
+            return list;
+
+        }
+        [HttpGet]
+        [Route("GetAllUserTransaction")]
+        public List<UserTransactiondata> GetAllUserTransaction()
+        {
+            var list = _BAO.GetAllUserTransaction();
+            return list;
+
+        }
+        [HttpGet]
+        [Route("GetAllUserTemplateMapping")]
+        public List<UserTemplateMapping> GetAllUserTemplateMapping()
+        {
+            var list = _BAO.GetAllUserTemplateMapping();
+            return list;
+
+        }
     }
 }
