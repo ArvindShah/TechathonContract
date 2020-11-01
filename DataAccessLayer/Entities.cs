@@ -72,4 +72,12 @@ namespace DataAccessLayer
         public bool isadmin { get; set; }
 
     }
+
+    public class DelUserTemp
+    {
+        public int UserId { get; set; }
+
+        public int TempId { get; set; }
+
+    }
 }

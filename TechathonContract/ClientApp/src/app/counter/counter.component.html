@@ -28,12 +28,16 @@
         <div class="col-auto">
             <div class="row">
                 <div class="col-auto">
-                    <input type="checkbox" id="read" name="access[]" value="read" [(ngModel)]="read_access">
-                    <label for="vehicle1"> Read </label>
+                    <input type="radio" id="read" name="access" value="read" [(ngModel)]="access">
+                    <label for="read"> Read </label>
                 </div>
                 <div class="col-auto">
-                    <input type="checkbox" id="write" name="access[]" value="write"  [(ngModel)]="write_access">
-                    <label for="vehicle2"> Read & Write</label>
+                    <input type="radio" id="write" name="access" value="write"  [(ngModel)]="access">
+                    <label for="write"> Read & Write</label>
+                </div>
+                <div class="col-auto">
+                    <input type="radio" id="revoke" name="access" value="revoke"  [(ngModel)]="access">
+                    <label for="revoke"> Revoke </label>
                 </div>
             </div>
         </div>

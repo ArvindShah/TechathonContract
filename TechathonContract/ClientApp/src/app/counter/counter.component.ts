@@ -14,6 +14,9 @@ export class CounterComponent implements OnInit{
   public selected_user;
   public read_access = false;
   public write_access = false;
+  public isRevoke = false;
+
+  public access;
 
   public templateList:Template[];
   public userList:User[];
@@ -25,6 +28,8 @@ export class CounterComponent implements OnInit{
   private selected_user_admin;
   private _post_user_template_mapping = "contract/SaveUserTemplateMapping";
   private _get_user_template_mapping = "contract/GetAllUserTemplateMapping";
+
+  private revokeUserAccess = "contract/DeleteTemplateUserMapping";
 
   private user_matrix_local;
 
@@ -94,8 +99,17 @@ export class CounterComponent implements OnInit{
     // let item2 = this.userList.find(i => i.UserId == this.selected_user);
     this.data.UserId = this.selected_user;
     // this.data.UserName = item2.UserName;
-    this.data.isWrite = this.write_access ? this.write_access : this.read_access;
-    this.post_user_template_mapping( this.data );
+    if( this.access == "revoke"){
+      this.revoke(this.data);
+    }else{
+      if( this.access == "read" ){
+        this.data.isWrite = false;
+      }else if( this.access == "write" ){
+        this.data.isWrite = true;
+      }
+      this.post_user_template_mapping(this.data);
+    }
+    
   }
 
   
@@ -120,7 +134,15 @@ export class CounterComponent implements OnInit{
 
 
   public post_user_template_mapping( data ){
-    this.http.post(this.base_url + this._post_user_template_mapping+"?TemplateId="+data.TemplateId+"&UserId="+data.UserId+"&isWrite="+data.isWrite, {}).subscribe();
+    this.http.post(this.base_url + this._post_user_template_mapping + "?TemplateId=" + data.TemplateId + "&UserId=" + data.UserId + "&isWrite=" + data.isWrite, {}).subscribe(_ => {
+      this.get_user_template_mapping();
+    });
+  }
+
+  public revoke( data ){
+    this.http.post(this.base_url + this.revokeUserAccess + "?Tid=" + data.TemplateId + "&Uid=" + data.UserId, {}).subscribe(_ => {
+      this.get_user_template_mapping();
+    });
   }
 
   public admin_message = "";

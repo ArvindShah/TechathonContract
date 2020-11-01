@@ -150,5 +150,17 @@ namespace TechathonContract.Controllers
             return op;
 
         }
+
+        [HttpPost]
+        [Route("contract/DeleteTemplateUserMapping")]
+        public IActionResult DeleteTemplateUserMapping(int Tid, int Uid)
+        {
+            DelUserTemp delObj = new DelUserTemp();
+            delObj.UserId = Uid;
+            delObj.TempId = Tid;
+            string res = _BAO.DeleteTemplateUserMapping( delObj );
+            return Ok(res);
+
+        }
     }
 }

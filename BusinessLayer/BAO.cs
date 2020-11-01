@@ -90,5 +90,10 @@ namespace BusinessLayer
         {
             return _DAO.UpdateUserToAdmin(objUserAdmin);
         }
+
+        public string DeleteTemplateUserMapping(DelUserTemp delObj)
+        {
+            return _DAO.DeleteTemplateUserMapping( delObj );
+        }
     }
 }
