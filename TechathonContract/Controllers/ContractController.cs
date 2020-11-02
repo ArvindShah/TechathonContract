@@ -135,7 +135,7 @@ namespace TechathonContract.Controllers
 
         [HttpGet]
         [Route("contract/GetContentType")]
-        public List<string> GetContentType()
+        public List<ContentType> GetContentType()
         {
             var rng = new Random();
             var list = _BAO.GetContentType();
