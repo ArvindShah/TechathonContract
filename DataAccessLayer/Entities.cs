@@ -87,4 +87,11 @@ namespace DataAccessLayer
 
         public string TemplateTypeName { get; set; }
     }
+
+    public class ContentControl
+    {
+        public string Tag { get; set; }
+
+        public string Content { get; set; }
+    }
 }

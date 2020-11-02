@@ -271,7 +271,7 @@ namespace DataAccessLayer
         {
 
             var sqlHelper = GetDBConnection(1);
-            var ds = sqlHelper.ExecuteDataSet(Constants.Tech_DelTempUserMapping);
+            var ds = sqlHelper.ExecuteDataSet(Constants.Tech_GetContentType);
             var dt = ds.Tables[0];
             List<ContentType> contentType = new List<ContentType>();
             for (int i = 0; i < dt.Rows.Count; i++)

@@ -31,5 +31,7 @@ namespace BusinessLayer
         StringBuilder getWordDoc(string docName, string version);
         void SaveDOCX(string v1, string v2, bool isLandScape = false, double rMargin = 1, double lMargin = 1, double bMargin = 1, double tMargin = 1);
         List<ContentType> GetContentType();
+        List<ContentControl> GetContentControl(string fileName, string version);
+        void CheckOutContentControl(string fileName, string version, string tag, string content);
     }
 }

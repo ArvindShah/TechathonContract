@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -38,17 +39,17 @@ namespace BusinessLayer
         }
         public int SaveUserTransaction(int id, int UserId, int Templateid, string LastVersion, string CurrentVersion, DateTime ModifiedDate)
         {
-            return _DAO.SaveUserTransaction(id,UserId, Templateid, LastVersion, CurrentVersion, ModifiedDate);
+            return _DAO.SaveUserTransaction(id, UserId, Templateid, LastVersion, CurrentVersion, ModifiedDate);
 
         }
-        public async void UploadFileToDatalake(Stream fileStream, string fileName, int documentTypeId, int documentTemplateId )
+        public async void UploadFileToDatalake(Stream fileStream, string fileName, int documentTypeId, int documentTemplateId)
         {
             try
             {
                 string fileType = fileName.Substring(fileName.Length - 4);
                 string newFileName = fileName.Remove(fileName.Length - 5);
                 int lastIndex = newFileName.LastIndexOf(".");
-                if(lastIndex < 0)
+                if (lastIndex < 0)
                 {
                     newFileName = newFileName + "_v1.0.0.0";
                     lastIndex = newFileName.LastIndexOf(".");
@@ -105,7 +106,7 @@ namespace BusinessLayer
 
         public string DeleteTemplateUserMapping(DelUserTemp delObj)
         {
-            return _DAO.DeleteTemplateUserMapping( delObj );
+            return _DAO.DeleteTemplateUserMapping(delObj);
         }
 
         public async Task<Stream> GetUploadedDoc(string docName = "Master Agreement_Template (1) (1)", string version = "1.0.0.1")
@@ -117,9 +118,9 @@ namespace BusinessLayer
 
             var storageBlob = new StorageBlob(storageConnectionString, blobStorageDetail.FSContainerName);
 
-            string filepath = storageBlob.Account.BlobStorageUri.PrimaryUri.AbsoluteUri + blobStorageDetail.FSContainerName + "/Techathon20/12/13/" + docName + "_v"+version +".docx" ;
+            string filepath = storageBlob.Account.BlobStorageUri.PrimaryUri.AbsoluteUri + blobStorageDetail.FSContainerName + "/Techathon20/12/13/" + docName + "_v" + version + ".docx";
 
-            Stream file = await DataLakeHelper.GetFileStreamWithStorageBlob(storageBlob, filepath);            
+            Stream file = await DataLakeHelper.GetFileStreamWithStorageBlob(storageBlob, filepath);
             //var parameters = ClientRequestParametersProvider.GetClientParameters(HttpContext, clientId);
             return file;
         }
@@ -142,7 +143,95 @@ namespace BusinessLayer
             return word;
         }
 
-        public void SaveDOCX(string fileName, string BodyText, bool isLandScape = false, double rMargin = 1, double lMargin=1, double bMargin=1, double tMargin=1)
+        public List<ContentControl> GetContentControl(string fileName, string version)
+        {
+            try
+            {
+                List<ContentControl> contentControls = new List<ContentControl>();
+                var str = GetUploadedDoc(fileName, version);
+                Stream stream = str.Result;
+                using (WordprocessingDocument doc = WordprocessingDocument.Open(stream, true))
+                {
+
+                    MainDocumentPart parteDocumento = doc.MainDocumentPart;
+                    var content = doc.MainDocumentPart.RootElement.Descendants().Where(e => e is SdtBlock || e is SdtRun);
+                    foreach (var cc in content)
+                    {
+
+                        SdtProperties props = cc.Elements<SdtProperties>().FirstOrDefault();
+                        var content1 = cc.Elements<SdtContentRun>().FirstOrDefault();
+                        var run = content1.Descendants<Run>().FirstOrDefault();
+                        var runProp = cc.Elements<SdtContentRun>().FirstOrDefault().Descendants<Run>().FirstOrDefault().Descendants<RunProperties>().FirstOrDefault();
+                        Tag tag = props.Elements<Tag>().FirstOrDefault();
+                        Text tcxt = cc.Descendants<Text>().First();
+
+                        contentControls.Add(new ContentControl() { Content = tcxt.Text, Tag = tag.Val });
+                    }
+                }
+                return contentControls;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public void CheckOutContentControl(string fileName, string version, string tagVal, string contentControl)
+        {
+            try
+            {
+                List<ContentControl> contentControls = new List<ContentControl>();
+                var str = GetUploadedDoc(fileName, version);
+                Stream stream = str.Result;
+
+                using (WordprocessingDocument doc = WordprocessingDocument.Open(stream, true))
+                {
+
+                    MainDocumentPart parteDocumento = doc.MainDocumentPart;
+                    var content = doc.MainDocumentPart.RootElement.Descendants().Where(e => e is SdtBlock || e is SdtRun);
+                    foreach (var cc in content)
+                    {
+
+                        SdtProperties props = cc.Elements<SdtProperties>().FirstOrDefault();
+                        var content1 = cc.Elements<SdtContentRun>().FirstOrDefault();
+                        var run = content1.Descendants<Run>().FirstOrDefault();
+                        var runProp = cc.Elements<SdtContentRun>().FirstOrDefault().Descendants<Run>().FirstOrDefault().Descendants<RunProperties>().FirstOrDefault();
+                        Tag tag = props.Elements<Tag>().FirstOrDefault();
+                        if (tag.Val == tagVal)
+                        {
+                            Text tcxt = cc.Descendants<Text>().First();
+                            tcxt.Text = string.Empty;
+
+                            Run formattedRun = new Run();
+                            RunProperties runPro = new RunProperties();
+                            RunFonts runFont = new RunFonts() { Ascii = "Cambria(Headings)", HighAnsi = "Cambria(Headings)" };
+                            Bold bold = new Bold();
+                            Text text = new Text(contentControl);
+                            Color color = new Color() { Val = "365F91", ThemeColor = ThemeColorValues.Accent1, ThemeShade = "BF" };
+                            runPro.Append(runFont);
+                            runPro.Append(bold);
+                            runPro.Append(color);
+                            runPro.Append(text);
+                            formattedRun.Append(runPro);
+                            //runProp.Append(runPro);
+                            content1.Append(formattedRun);
+                        }
+                    }
+                    parteDocumento.Document.Save();
+                    //doc.Close();
+                }
+                //Stream stream2 = new MemoryStream(result);
+                stream.Position = 0; //let's rewind it
+
+                UploadFileToDatalake(stream, fileName +"_v"+ version+".docx", 12, 12);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public void SaveDOCX(string fileName, string BodyText, bool isLandScape = false, double rMargin = 1, double lMargin = 1, double bMargin = 1, double tMargin = 1)
         {
             string destFile = Path.Combine(Path.Combine(_env.ContentRootPath, @"App_Data\Files"), "Clause Templat1_v1.0.0.5.docx");
             WordprocessingDocument document = WordprocessingDocument.Create(destFile, WordprocessingDocumentType.Document);

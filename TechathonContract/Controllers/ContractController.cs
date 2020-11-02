@@ -137,9 +137,24 @@ namespace TechathonContract.Controllers
         [Route("contract/GetContentType")]
         public List<ContentType> GetContentType()
         {
-            var rng = new Random();
             var list = _BAO.GetContentType();
             return list;
+        }
+
+        [HttpGet]
+        [Route("contract/GetContentControl")]
+        public List<ContentControl> GetContentControl(string fileName, string version)
+        {
+            var list = _BAO.GetContentControl(fileName, version);
+            return list;
+        }
+
+        [HttpGet]
+        [Route("contract/CheckOutContentControl")]
+        public IActionResult CheckOutContentControl(string fileName, string version, string tag, string content)
+        {
+            _BAO.CheckOutContentControl(fileName, version, tag, content);
+            return Ok("Success");
         }
 
         [HttpGet]
