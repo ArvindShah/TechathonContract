@@ -2,7 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using Common.Entity;
+using Common.Helper.DataLakeHelper;
 using DataAccessLayer;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.Extensions.Hosting;
+using OpenXmlPowerTools;
 using spend.selfserve.businessLayer.Helper.DataLakeHelper;
 
 namespace BusinessLayer
@@ -10,9 +19,12 @@ namespace BusinessLayer
     public class BAO : IBAO
     {
         private readonly IDAO _DAO;
-        public BAO(IDAO DAO)
+        private readonly IHostingEnvironment _env;
+
+        public BAO(IDAO DAO, IHostingEnvironment env)
         {
             _DAO = DAO;
+            _env = env;
         }
 
         public int SaveUser(int userId)
@@ -95,5 +107,108 @@ namespace BusinessLayer
         {
             return _DAO.DeleteTemplateUserMapping( delObj );
         }
+
+        public async Task<Stream> GetUploadedDoc(string docName = "Master Agreement_Template (1) (1)", string version = "1.0.0.1")
+        {
+            BlobStorageDetail blobStorageDetail = _DAO.GetDataLakeStorageDetails();
+
+            string storageConnectionString = string.Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}",
+                                                                blobStorageDetail.StorageName, blobStorageDetail.StorageKey);
+
+            var storageBlob = new StorageBlob(storageConnectionString, blobStorageDetail.FSContainerName);
+
+            string filepath = storageBlob.Account.BlobStorageUri.PrimaryUri.AbsoluteUri + blobStorageDetail.FSContainerName + "/Techathon20/12/13/" + docName + "_v"+version +".docx" ;
+
+            Stream file = await DataLakeHelper.GetFileStreamWithStorageBlob(storageBlob, filepath);            
+            //var parameters = ClientRequestParametersProvider.GetClientParameters(HttpContext, clientId);
+            return file;
+        }
+
+        public StringBuilder getWordDoc(string docName, string version)
+        {
+            var str = GetUploadedDoc(docName, version);
+            Stream stream = str.Result;
+            StringBuilder word = new StringBuilder();
+            using (WordprocessingDocument doc = WordprocessingDocument.Open(stream, true))
+            {
+                HtmlConverterSettings settings = new HtmlConverterSettings()
+                {
+                    PageTitle = docName
+                };
+                XElement html = HtmlConverter.ConvertToHtml(doc, settings);
+                word.Append(html);
+            }
+
+            return word;
+        }
+
+        public void SaveDOCX(string fileName, string BodyText, bool isLandScape = false, double rMargin = 1, double lMargin=1, double bMargin=1, double tMargin=1)
+        {
+            string destFile = Path.Combine(Path.Combine(_env.ContentRootPath, @"App_Data\Files"), "Clause Templat1_v1.0.0.5.docx");
+            WordprocessingDocument document = WordprocessingDocument.Create(destFile, WordprocessingDocumentType.Document);
+            MainDocumentPart mainDocumenPart = document.MainDocumentPart;
+
+            //Place the HTML String into a MemoryStream Object
+            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(BodyText));
+
+            //Assign an HTML Section for the String Text
+            string htmlSectionID = "Sect1";
+
+            // Create alternative format import part.
+            AlternativeFormatImportPart formatImportPart = mainDocumenPart.AddAlternativeFormatImportPart(AlternativeFormatImportPartType.Html, htmlSectionID);
+
+            // Feed HTML data into format import part (chunk).
+            formatImportPart.FeedData(ms);
+            AltChunk altChunk = new AltChunk();
+            altChunk.Id = htmlSectionID;
+
+            //Clear out the Document Body and Insert just the HTML string.  (This prevents an empty First Line)
+            mainDocumenPart.Document.Body.RemoveAllChildren();
+            mainDocumenPart.Document.Body.Append(altChunk);
+
+            /*
+             Set the Page Orientation and Margins Based on Page Size
+             inch equiv = 1440 (1 inch margin)
+             */
+            double width = 8.5 * 1440;
+            double height = 11 * 1440;
+
+            SectionProperties sectionProps = new SectionProperties();
+            PageSize pageSize;
+            if (isLandScape)
+                pageSize = new PageSize() { Width = (UInt32Value)height, Height = (UInt32Value)width, Orient = PageOrientationValues.Landscape };
+            else
+                pageSize = new PageSize() { Width = (UInt32Value)width, Height = (UInt32Value)height, Orient = PageOrientationValues.Portrait };
+
+            rMargin = rMargin * 1440;
+            lMargin = lMargin * 1440;
+            bMargin = bMargin * 1440;
+            tMargin = tMargin * 1440;
+
+            PageMargin pageMargin = new PageMargin() { Top = (Int32)tMargin, Right = (UInt32Value)rMargin, Bottom = (Int32)bMargin, Left = (UInt32Value)lMargin, Header = (UInt32Value)360U, Footer = (UInt32Value)360U, Gutter = (UInt32Value)0U };
+
+            sectionProps.Append(pageSize);
+            sectionProps.Append(pageMargin);
+            mainDocumenPart.Document.Body.Append(sectionProps);
+
+            //Saving/Disposing of the created word Document
+            document.MainDocumentPart.Document.Save();
+            Stream stream = document.MainDocumentPart.GetStream();
+            UploadFileToDatalake(stream, "Clause Templat1_v1.0.0.5.docx", 12, 13);
+            document.Dispose();
+        }
+
+        public List<ContentType> GetContentType()
+        {
+            try
+            {
+                return _DAO.GetContentType();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }

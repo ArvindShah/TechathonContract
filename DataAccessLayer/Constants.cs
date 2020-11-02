@@ -20,6 +20,7 @@ namespace DataAccessLayer
         public const string Tech_GetAllTemplatesByUserId = "Tech_GetAllTemplatesByUserId";
         public const string Tech_UpdateUserAdmin = "Tech_UpdateUserAdmin";
         public const string Tech_DelTempUserMapping = "Tech_DelTempUserMapping";
+        public const string Tech_GetContentType = "Tech_GetContentType";
 
 
 

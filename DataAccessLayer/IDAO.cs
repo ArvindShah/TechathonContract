@@ -29,6 +29,7 @@ namespace DataAccessLayer
         string UpdateUserToAdmin(UserAdmin objUserAdmin);
 
         string DeleteTemplateUserMapping(DelUserTemp delObj);
+        List<ContentType> GetContentType();
 
     }
 }

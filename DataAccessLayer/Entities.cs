@@ -80,4 +80,11 @@ namespace DataAccessLayer
         public int TempId { get; set; }
 
     }
+
+    public class ContentType 
+    {
+        public int TemplateTypeID { get; set; }
+
+        public string TemplateTypeName { get; set; }
+    }
 }

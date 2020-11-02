@@ -110,7 +110,7 @@ namespace spend.selfserve.businessLayer.Helper.DataLakeHelper
             return fileCreationResult.IsSuccessStatusCode;
         }
 
-        public async Task<Stream> GetFileStreamWithStorageBlob(long partnerCode, long contactCode, StorageBlob storageBlob, string reportFilePath)
+        public static async Task<Stream> GetFileStreamWithStorageBlob(StorageBlob storageBlob, string reportFilePath)
         {
             try
             {

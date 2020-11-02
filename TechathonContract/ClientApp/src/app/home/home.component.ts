@@ -10,12 +10,19 @@ import { Clause } from './Clause';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit{
+  public model = {
+    editorData: '<p>GEP Contract Editor</p>',
+    readOnly: false,
+    Edit: false,
+    first:false
+  };
+  public First: any;
   public progress: number;
   public message: string;
   public _baseURL: string;
   public _http: HttpClient;
   public http: HttpClient;
-
+  public theHtmlString: any;
   public user_id;
 
   public selected_version;
@@ -34,7 +41,7 @@ export class HomeComponent implements OnInit{
   constructor(private __http: HttpClient,
     @Inject('BASE_URL') private baseUrl: string) {
       this.http = __http;
-      this.base_url = baseUrl;
+    this.base_url = baseUrl;
   }
   ngOnInit() {
     this.getUsers( 1 );
@@ -109,4 +116,32 @@ export class HomeComponent implements OnInit{
     }, error => console.error(error));
 
   }
+
+  public showFile = () => {
+    this.model.Edit = false;
+    this.model.first = true;
+    this.http.get<any>(this.baseUrl + 'contract/GetUploadedDoc?docName=Master Agreement_Template&version=1.0.0.1').subscribe(result => {
+      this.theHtmlString = result.m_StringValue;
+      this.model.editorData = result.m_StringValue;
+    }, error => console.error(error));
+  }
+
+  public EditFile = () => {
+    this.model.Edit = true;
+    this.model.readOnly = false;
+    this.http.get<any>(this.baseUrl + 'contract/GetUploadedDoc?docName=Master Agreement_Template&version=1.0.0.1').subscribe(result => {
+      this.theHtmlString = result.m_StringValue;
+      this.model.editorData = result.m_StringValue;
+    }, error => console.error(error));
+  }
+
+  public CheckOutFile = () => {
+    this.model.Edit = true;
+    this.model.readOnly = false;
+    this.http.get<any>(this.baseUrl + 'contract/GetUploadedDoc?docName=Master Agreement_Template&version=1.0.0.1').subscribe(result => {
+      this.theHtmlString = result.m_StringValue;
+      this.model.editorData = result.m_StringValue;
+    }, error => console.error(error));
+  }
+
 }

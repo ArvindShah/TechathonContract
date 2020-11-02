@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 using System.IO;
-
+using System.Text;
 
 namespace BusinessLayer
 {
@@ -27,5 +27,9 @@ namespace BusinessLayer
 
         string DeleteTemplateUserMapping( DelUserTemp delObj );
 
+       // List<UserTemplateMapping> GetAllUserTemplateMapping();
+        StringBuilder getWordDoc(string docName, string version);
+        void SaveDOCX(string v1, string v2, bool isLandScape = false, double rMargin = 1, double lMargin = 1, double bMargin = 1, double tMargin = 1);
+        List<ContentType> GetContentType();
     }
 }

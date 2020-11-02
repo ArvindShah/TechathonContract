@@ -21,7 +21,7 @@ namespace DataAccessLayer
             return 0;
         }
 
-        public List<ContentMaster> GetContentData(bool IsClause,int ContentId = 0)
+        public List<ContentMaster> GetContentData(bool IsClause, int ContentId = 0)
         {
             var sqlHelper = GetDBConnection(1);
             var dataSet = sqlHelper.ExecuteDataSet(Constants.TECH_GETALLCONTENTDATA, IsClause, ContentId);
@@ -43,10 +43,10 @@ namespace DataAccessLayer
         public int SaveUserTransaction(int id, int UserId, int Templateid, string LastVersion, string CurrentVersion, DateTime ModifiedDate)
         {
             var sqlHelper = GetDBConnection(1);
-            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_SaveUserTransaction, id,UserId, Templateid, LastVersion, CurrentVersion, ModifiedDate);
+            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_SaveUserTransaction, id, UserId, Templateid, LastVersion, CurrentVersion, ModifiedDate);
 
             return 0;
-      }
+        }
 
         public Dictionary<string, string> GetResourcesConfigurations()
         {
@@ -63,7 +63,7 @@ namespace DataAccessLayer
 
                     while (sqlDr.Read())
                     {
-                        keyValuePairs.Add((string)sqlDr["ConfigKey"], (string)sqlDr["ConfigValue"]);                      
+                        keyValuePairs.Add((string)sqlDr["ConfigKey"], (string)sqlDr["ConfigValue"]);
                     }
                 }
             }
@@ -132,7 +132,7 @@ namespace DataAccessLayer
 
         }
 
-        public List<UserMaster> GetAllUsers(String UserId ="")
+        public List<UserMaster> GetAllUsers(String UserId = "")
         {
             var sqlHelper = GetDBConnection(1);
             var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllUsers, UserId);
@@ -175,7 +175,7 @@ namespace DataAccessLayer
         public List<UserTransactiondata> GetAllUserTransaction()
         {
             var sqlHelper = GetDBConnection(1);
-            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllUserTransaction,0);
+            var dataSet = sqlHelper.ExecuteDataSet(Constants.Tech_GetAllUserTransaction, 0);
             var dt = dataSet.Tables[0];
             List<UserTransactiondata> UserTransactionList = new List<UserTransactiondata>();
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -192,7 +192,7 @@ namespace DataAccessLayer
 
                 UserTransactionList.Add(usertr);
             }
-            
+
             return UserTransactionList;
         }
         public List<string> GetAllVersionByTeplateId(int TemplateId)
@@ -215,7 +215,7 @@ namespace DataAccessLayer
                 objum.TemplateName = Convert.ToString(dt.Rows[i]["TemplateName"].ToString());
                 objum.isWrite = Convert.ToBoolean(dt.Rows[i]["isWrite"].ToString());
                 objum.UserName = Convert.ToString(dt.Rows[i]["UserName"]);
-              
+
 
                 usertemplist.Add(objum);
             }
@@ -267,5 +267,21 @@ namespace DataAccessLayer
 
         }
 
+        public List<ContentType> GetContentType()
+        {
+
+            var sqlHelper = GetDBConnection(1);
+            var ds = sqlHelper.ExecuteDataSet(Constants.Tech_DelTempUserMapping);
+            var dt = ds.Tables[0];
+            List<ContentType> contentType = new List<ContentType>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ContentType contentType1 = new ContentType();
+                contentType1.TemplateTypeName = Convert.ToString(dt.Rows[i]["TemplateTypeName"]);
+                contentType1.TemplateTypeID = Convert.ToInt32(dt.Rows[i]["TemplateTypeID"]);
+                contentType.Add(contentType1);
+            }
+            return contentType;
+        }
     }
 }

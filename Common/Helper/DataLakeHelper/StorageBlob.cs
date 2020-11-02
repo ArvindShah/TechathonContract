@@ -76,7 +76,7 @@ namespace Common.Helper.DataLakeHelper
 
                 return fileByteArray;
             }
-            catch
+            catch (Exception ex)
             {
                 throw;
             }

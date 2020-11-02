@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -131,6 +132,16 @@ namespace TechathonContract.Controllers
             return list;
 
         }
+
+        [HttpGet]
+        [Route("contract/GetContentType")]
+        public List<string> GetContentType()
+        {
+            var rng = new Random();
+            var list = _BAO.GetContentType();
+            return list;
+        }
+
         [HttpGet]
         [Route("contract/GetAllTemplateByUserId")]
         public List<TemplateMaster> GetAllTemplateByUserId(int UserId = 0)
@@ -161,6 +172,15 @@ namespace TechathonContract.Controllers
             string res = _BAO.DeleteTemplateUserMapping( delObj );
             return Ok(res);
 
+        }
+
+        [HttpGet("contract/GetUploadedDoc")]
+        public IActionResult GetUploadedDoc(string docName, string version)
+        {
+            var file = _BAO.getWordDoc(docName, version);
+            //_BAO.SaveDOCX("", "");
+            //var parameters = ClientRequestParametersProvider.GetClientParameters(HttpContext, clientId);
+            return Ok(JsonConvert.SerializeObject(file).Replace("#x200e", "").Replace("&;", ""));
         }
     }
 }
